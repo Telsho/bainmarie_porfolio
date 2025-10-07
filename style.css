@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff; /* A light background for contrast */
+}
+
+#image-container {
+    position: relative;
+    width: 80%; /* Adjust as needed */
+    max-width: 1200px; /* Optional: limit max size */
+}
+
+#image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.hover-zone {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#blueprints {
+    width: 19%;
+    height: 7%;
+    bottom: 13%;
+    left: 40.5%;
+}
+
+#i_liked_blue_after_you {
+    width: 34%;
+    height: 7%;
+    bottom: 23%;
+    left: 17%;
+}
+
+#seeing_sound {
+    width: 23%;
+    height: 7%;
+    bottom: 23%;
+    right: 20%;
+}
+
+#roots {
+    width: 17%;
+    height: 7%;
+    bottom: 34%;
+    left: 8%;
+}
+
+#to_hold {
+    width: 17%;
+    height: 7%;
+    bottom: 34%;
+    right: 10%;
+}
+
+#image-container.zoomed img[alt="background"] {
+    transform: scale(3);
+    transition: transform 2s ease-in-out;
+}
+
+#meaple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%; /* Adjust size as needed */
+    display: none; /* Hidden by default */
+    transition: transform 2s ease-in-out;
+}
+
+#image-container.zoomed #meaple {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#meaple.rotate {
+    display: block;
+    animation: spin 2s linear;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(3) rotate(720deg);
+    }
+}

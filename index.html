@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bain-marie's portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="image-container">
+        <img src="img/base.PNG" alt="background">
+        <img src="img/meaple_only.PNG" id="meaple" alt="meaple" style="display: none;">
+        <div class="hover-zone" id="blueprints"></div>
+        <div class="hover-zone" id="i_liked_blue_after_you"></div>
+        <div class="hover-zone" id="seeing_sound"></div>
+        <div class="hover-zone" id="to_hold"></div>
+        <div class="hover-zone" id="roots"></div>
+    </div>
+
+    <script>
+        const imageContainer = document.getElementById('image-container');
+        const mainImage = document.querySelector('#image-container img[alt="background"]');
+        const meapleImage = document.getElementById('meaple');
+        const hoverZones = document.querySelectorAll('.hover-zone');
+        const originalImageSrc = mainImage.src;
+        let isAnimating = false;
+
+        const imageMap = {
+            'blueprints': 'img/select_blueprints.PNG',
+            'i_liked_blue_after_you': 'img/select_I_liked_blue_after_you.PNG',
+            'seeing_sound': 'img/select_seeing_sound.PNG',
+            'to_hold': 'img/select_to_hold.PNG',
+            'roots': 'img/select_roots.PNG'
+        };
+
+        function setHoverZonesState(enabled) {
+            hoverZones.forEach(hz => {
+                hz.style.pointerEvents = enabled ? 'auto' : 'none';
+            });
+        }
+
+        hoverZones.forEach(zone => {
+            zone.addEventListener('mouseover', () => {
+                if (!isAnimating) {
+                    mainImage.src = imageMap[zone.id];
+                }
+            });
+
+            zone.addEventListener('mouseout', () => {
+                if (!isAnimating) {
+                    mainImage.src = originalImageSrc;
+                }
+            });
+
+            zone.addEventListener('click', () => {
+                if (isAnimating) return;
+
+                isAnimating = true;
+                setHoverZonesState(false);
+
+                // 1. Instantly change background, show meaple, and start animations
+                mainImage.src = 'img/without_meaple.PNG';
+                meapleImage.style.display = 'block'; // Show the meaple
+                meapleImage.classList.add('rotate');
+                imageContainer.classList.add('zoomed');
+
+                // 2. After 2 seconds, hide the meaple and reset the zoom
+                setTimeout(() => {
+                    meapleImage.classList.remove('rotate');
+                    imageContainer.classList.remove('zoomed');
+                    meapleImage.style.display = 'none'; // Hide the meaple
+                    mainImage.src = originalImageSrc; // Optional: reset to original image
+
+                    isAnimating = false;
+                    setHoverZonesState(true);
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
