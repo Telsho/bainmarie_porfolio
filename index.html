@@ -15,6 +15,7 @@
         <div class="hover-zone" id="seeing_sound"></div>
         <div class="hover-zone" id="to_hold"></div>
         <div class="hover-zone" id="roots"></div>
+        <div id="arrow-left"></div>
         <div id="arrow-right"></div>
         <div id="close-btn"></div>
     </div>
@@ -84,6 +85,7 @@
                         setTimeout(() => {
                             mainImage.src = 'img/to_hold_1.jpeg';
                             const arrowRight = document.getElementById('arrow-right');
+                            const arrowLeft = document.getElementById('arrow-left');
                             const closeBtn = document.getElementById('close-btn');
                             
                             // Show the elements
@@ -95,12 +97,24 @@
                                 closeBtn.classList.add('fade-in-animation');
                             });
 
-                            const arrowClickHandler = () => {
+                            const arrowRightClickHandler = () => {
                                 mainImage.classList.add('rotate-x-animation');
                                 arrowRight.style.display = 'none'; // Hide arrow during/after animation
+                                arrowLeft.style.display = 'block';
 
                                 mainImage.addEventListener('animationend', () => {
                                     mainImage.src = 'img/to_hold_2.jpeg';
+                                    mainImage.classList.remove('rotate-x-animation');
+                                }, { once: true });
+                            };
+
+                            const arrowLeftClickHandler = () => {
+                                mainImage.classList.add('rotate-x-animation');
+                                arrowLeft.style.display = 'none';
+                                arrowRight.style.display = 'block';
+
+                                mainImage.addEventListener('animationend', () => {
+                                    mainImage.src = 'img/to_hold_1.jpeg';
                                     mainImage.classList.remove('rotate-x-animation');
                                 }, { once: true });
                             };
@@ -110,6 +124,7 @@
                                 closeBtn.classList.remove('fade-in-animation');
                                 closeBtn.classList.add('fade-out-animation');
                                 arrowRight.style.display = 'none'; // Hide arrow immediately
+                                arrowLeft.style.display = 'none';
 
                                 // 2. Fade out the main image
                                 mainImage.classList.add('image-fade-out');
@@ -134,13 +149,15 @@
                                         }, { once: true });
 
                                         // Clean up the main event listeners
-                                        arrowRight.removeEventListener('click', arrowClickHandler);
+                                        arrowRight.removeEventListener('click', arrowRightClickHandler);
+                                        arrowLeft.removeEventListener('click', arrowLeftClickHandler);
                                         closeBtn.removeEventListener('click', closeClickHandler);
                                     }
                                 }, { once: true });
                             };
 
-                            arrowRight.addEventListener('click', arrowClickHandler);
+                            arrowRight.addEventListener('click', arrowRightClickHandler);
+                            arrowLeft.addEventListener('click', arrowLeftClickHandler);
                             closeBtn.addEventListener('click', closeClickHandler);
                         }, 3000); // NOTE: Adjust this duration to match your GIF's length
 
