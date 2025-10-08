@@ -61,18 +61,36 @@
                 // 1. Instantly change background, show meaple, and start animations
                 mainImage.src = 'img/without_meaple.PNG';
                 meapleImage.style.display = 'block'; // Show the meaple
-                meapleImage.classList.add('rotate');
+                if (zone.id === 'to_hold') {
+                    meapleImage.classList.add('spin-and-move');
+                } else {
+                    meapleImage.classList.add('rotate');
+                }
                 imageContainer.classList.add('zoomed');
 
-                // 2. After 2 seconds, hide the meaple and reset the zoom
+                // 2. After 2 seconds, decide what to do next
                 setTimeout(() => {
-                    meapleImage.classList.remove('rotate');
-                    imageContainer.classList.remove('zoomed');
-                    meapleImage.style.display = 'none'; // Hide the meaple
-                    mainImage.src = originalImageSrc; // Optional: reset to original image
+                    meapleImage.style.display = 'none';
+                    meapleImage.classList.remove('rotate', 'spin-and-move');
 
-                    isAnimating = false;
-                    setHoverZonesState(true);
+                    if (zone.id === 'to_hold') {
+                        // Change the main image to the GIF
+                        mainImage.src = 'img/to_hold_animation.gif';
+                        imageContainer.classList.remove('zoomed');
+
+                        // After a delay to let the GIF play, replace it with the static image and disable all interactions
+                        setTimeout(() => {
+                            mainImage.src = 'img/to_hold_1.jpeg';
+                            // All interactions will remain disabled.
+                        }, 3000); // NOTE: Adjust this duration to match your GIF's length
+
+                    } else {
+                        // Original behavior for other zones
+                        imageContainer.classList.remove('zoomed');
+                        mainImage.src = originalImageSrc; // Optional: reset to original image
+                        isAnimating = false;
+                        setHoverZonesState(true);
+                    }
                 }, 2000);
             });
         });

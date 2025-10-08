@@ -61,9 +61,10 @@ body {
 }
 
 #image-container.zoomed img[alt="background"] {
-    transform: scale(3);
+    transform: scale(5);
     transition: transform 2s ease-in-out;
 }
+
 
 #meaple {
     position: absolute;
@@ -84,11 +85,28 @@ body {
     animation: spin 2s linear;
 }
 
+#meaple.spin-and-move {
+    display: block;
+    animation: spin 2s linear, move-meaple 2s linear;
+    animation-fill-mode: forwards; /* Keeps the meaple at the final position */
+}
+
 @keyframes spin {
     from {
         transform: translate(-50%, -50%) rotate(0deg);
     }
     to {
         transform: translate(-50%, -50%) rotate(720deg);
+    }
+}
+
+@keyframes move-meaple {
+    from {
+        top: 50%;
+        left: 50%;
+    }
+    to {
+        top: 46%;
+        left: 67%;
     }
 }
