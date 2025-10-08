@@ -21,6 +21,27 @@
     </div>
 
     <script>
+        function preloadImages(urls) {
+            for (const url of urls) {
+                const img = new Image();
+                img.src = url;
+            }
+        }
+
+        const imagesToPreload = [
+            'img/select_blueprints.PNG',
+            'img/select_I_liked_blue_after_you.PNG',
+            'img/select_seeing_sound.PNG',
+            'img/select_to_hold.PNG',
+            'img/select_roots.PNG',
+            'img/without_meaple.PNG',
+            'img/to_hold_animation.gif',
+            'img/to_hold_1.jpeg',
+            'img/to_hold_2.jpeg'
+        ];
+
+        preloadImages(imagesToPreload);
+
         const imageContainer = document.getElementById('image-container');
         const mainImage = document.querySelector('#image-container img[alt="background"]');
         const meapleImage = document.getElementById('meaple');
