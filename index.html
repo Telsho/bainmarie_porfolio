@@ -16,6 +16,7 @@
         <div class="hover-zone" id="to_hold"></div>
         <div class="hover-zone" id="roots"></div>
         <div id="arrow-right"></div>
+        <div id="close-btn"></div>
     </div>
 
     <script>
@@ -83,17 +84,64 @@
                         setTimeout(() => {
                             mainImage.src = 'img/to_hold_1.jpeg';
                             const arrowRight = document.getElementById('arrow-right');
+                            const closeBtn = document.getElementById('close-btn');
+                            
+                            // Show the elements
                             arrowRight.style.display = 'block';
+                            closeBtn.style.display = 'block';
+                            
+                            // Use requestAnimationFrame to apply the animation class on the next frame, ensuring it plays
+                            requestAnimationFrame(() => {
+                                closeBtn.classList.add('fade-in-animation');
+                            });
 
-                            arrowRight.addEventListener('click', () => {
+                            const arrowClickHandler = () => {
                                 mainImage.classList.add('rotate-x-animation');
                                 arrowRight.style.display = 'none'; // Hide arrow during/after animation
 
                                 mainImage.addEventListener('animationend', () => {
                                     mainImage.src = 'img/to_hold_2.jpeg';
                                     mainImage.classList.remove('rotate-x-animation');
-                                }, { once: true }); // Ensure the event listener is removed after it runs
-                            });
+                                }, { once: true });
+                            };
+
+                            const closeClickHandler = () => {
+                                // 1. Fade out the close button
+                                closeBtn.classList.remove('fade-in-animation');
+                                closeBtn.classList.add('fade-out-animation');
+                                arrowRight.style.display = 'none'; // Hide arrow immediately
+
+                                // 2. Fade out the main image
+                                mainImage.classList.add('image-fade-out');
+
+                                // 3. After the image fades out, reset everything and fade the new image in
+                                mainImage.addEventListener('animationend', (event) => {
+                                    if (event.animationName === 'fade-out') {
+                                        // Reset the state
+                                        mainImage.src = originalImageSrc;
+                                        closeBtn.style.display = 'none';
+                                        closeBtn.classList.remove('fade-out-animation');
+                                        isAnimating = false;
+                                        setHoverZonesState(true);
+
+                                        // Fade the original image back in
+                                        mainImage.classList.remove('image-fade-out');
+                                        mainImage.classList.add('image-fade-in');
+
+                                        // Clean up the fade-in class after it's done
+                                        mainImage.addEventListener('animationend', () => {
+                                            mainImage.classList.remove('image-fade-in');
+                                        }, { once: true });
+
+                                        // Clean up the main event listeners
+                                        arrowRight.removeEventListener('click', arrowClickHandler);
+                                        closeBtn.removeEventListener('click', closeClickHandler);
+                                    }
+                                }, { once: true });
+                            };
+
+                            arrowRight.addEventListener('click', arrowClickHandler);
+                            closeBtn.addEventListener('click', closeClickHandler);
                         }, 3000); // NOTE: Adjust this duration to match your GIF's length
 
                     } else {
