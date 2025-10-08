@@ -11,6 +11,7 @@ body {
     position: relative;
     width: 80%; /* Adjust as needed */
     max-width: 1200px; /* Optional: limit max size */
+    perspective: 1000px; /* Add perspective for 3D effect */
 }
 
 #image-container img {
@@ -108,5 +109,32 @@ body {
     to {
         top: 46%;
         left: 67%;
+    }
+}
+
+#arrow-right {
+    position: absolute;
+    top: 50%;
+    right: 2%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid black;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+.rotate-x-animation {
+    animation: rotate-x 0.8s linear;
+}
+
+@keyframes rotate-x {
+    from {
+        transform: rotateX(0deg);
+    }
+    to {
+        transform: rotateX(360deg);
     }
 }

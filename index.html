@@ -15,6 +15,7 @@
         <div class="hover-zone" id="seeing_sound"></div>
         <div class="hover-zone" id="to_hold"></div>
         <div class="hover-zone" id="roots"></div>
+        <div id="arrow-right"></div>
     </div>
 
     <script>
@@ -78,10 +79,21 @@
                         mainImage.src = 'img/to_hold_animation.gif';
                         imageContainer.classList.remove('zoomed');
 
-                        // After a delay to let the GIF play, replace it with the static image and disable all interactions
+                        // After a delay to let the GIF play, replace it with the static image and show the arrow
                         setTimeout(() => {
                             mainImage.src = 'img/to_hold_1.jpeg';
-                            // All interactions will remain disabled.
+                            const arrowRight = document.getElementById('arrow-right');
+                            arrowRight.style.display = 'block';
+
+                            arrowRight.addEventListener('click', () => {
+                                mainImage.classList.add('rotate-x-animation');
+                                arrowRight.style.display = 'none'; // Hide arrow during/after animation
+
+                                mainImage.addEventListener('animationend', () => {
+                                    mainImage.src = 'img/to_hold_2.jpeg';
+                                    mainImage.classList.remove('rotate-x-animation');
+                                }, { once: true }); // Ensure the event listener is removed after it runs
+                            });
                         }, 3000); // NOTE: Adjust this duration to match your GIF's length
 
                     } else {
